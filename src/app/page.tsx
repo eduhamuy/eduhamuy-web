@@ -16,7 +16,7 @@ export default function HomePage() {
 
       <p>
         Plataforma educativa digital para Ciencias de la Educación y
-        Humanidades.
+        Humanidades — v0.1.1.
       </p>
     </main>
   );
