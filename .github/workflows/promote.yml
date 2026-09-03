@@ -10,6 +10,7 @@ on:
         options:
           - dev
           - test
+          - prod
 
       image_tag:
         description: "GHCR image tag to promote"
