@@ -1,6 +1,8 @@
+import { evaluateBooleanFlag } from "@/lib/launchdarkly";
+
 export const dynamic = "force-dynamic";
 
-export default function HomePage() {
+export default async function HomePage() {
   const environment = process.env.EDUHAMUY_ENV ?? "PROD";
 
   const title =
@@ -10,6 +12,15 @@ export default function HomePage() {
         ? "Bienvenido a EduHamuy (TEST)"
         : "Bienvenido a EduHamuy";
 
+  const showNewHome = await evaluateBooleanFlag(
+    "edu-hamuy-new-home",
+    {
+      kind: "user",
+      key: "anonymous-user",
+    },
+    false,
+  );
+
   return (
     <main>
       <h1>{title}</h1>
@@ -18,6 +29,13 @@ export default function HomePage() {
         Plataforma educativa digital para Ciencias de la Educación y
         Humanidades — v0.1.1.
       </p>
+
+      {showNewHome && (
+        <section>
+          <h2>Nueva experiencia de EduHamuy</h2>
+          <p>Esta sección está controlada mediante LaunchDarkly.</p>
+        </section>
+      )}
     </main>
   );
 }
