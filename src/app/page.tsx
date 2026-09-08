@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { isAuthEnabled } from "@/lib/auth-enabled";
 import { evaluateBooleanFlag } from "@/lib/launchdarkly";
 
 export const dynamic = "force-dynamic";
@@ -29,6 +31,8 @@ export default async function HomePage() {
         Plataforma educativa digital para Ciencias de la Educación y
         Humanidades — v0.1.1.
       </p>
+
+      {isAuthEnabled() && <p><Link href="/mi-cuenta">Acceder a mi cuenta</Link></p>}
 
       {showNewHome && (
         <section>
