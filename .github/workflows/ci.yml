@@ -33,6 +33,9 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Check formatting
+        run: npm run format:check
+
       - name: Build
         run: npm run build
 
@@ -62,4 +65,3 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository }}:${{ github.sha }}
             ghcr.io/${{ github.repository }}:dev
-  

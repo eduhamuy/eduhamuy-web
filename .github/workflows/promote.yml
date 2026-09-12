@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: "Target environment"
+        description: 'Target environment'
         required: true
         type: choice
         options:
@@ -14,7 +14,7 @@ on:
           - prod
 
       image_tag:
-        description: "GHCR image tag to promote"
+        description: 'GHCR image tag to promote'
         required: true
         type: string
 

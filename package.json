@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "format:check": "prettier --check .",
+    "format": "prettier --write ."
   },
   "engines": {
     "node": ">=24 <25",
@@ -21,11 +23,14 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^6.0.2",
     "@types/node": "^24.13.3",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.3.4",
+    "eslint-plugin-prettier": "^5.5.6",
+    "prettier": "^3.9.6",
     "typescript": "^5"
   }
 }

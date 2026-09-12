@@ -1,8 +1,8 @@
-import { handlers } from "@/auth";
-import { isAuthEnabled } from "@/lib/auth-enabled";
-import type { NextRequest } from "next/server";
+import type { NextRequest } from 'next/server';
+import { handlers } from '@/auth';
+import { isAuthEnabled } from '@/lib/auth-enabled';
 
-export const runtime = "nodejs";
+export const runtime = 'nodejs';
 
 export function GET(request: NextRequest) {
   if (!isAuthEnabled()) return new Response(null, { status: 404 });

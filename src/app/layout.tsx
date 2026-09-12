@@ -1,10 +1,9 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import type { Metadata } from 'next';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: "EduHamuy",
-  description:
-    "Plataforma educativa digital para Ciencias de la Educación y Humanidades.",
+  title: 'EduHamuy',
+  description: 'Plataforma educativa digital para Ciencias de la Educación y Humanidades.',
 };
 
 export default function RootLayout({
