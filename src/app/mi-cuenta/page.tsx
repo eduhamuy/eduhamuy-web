@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { auth, signOut } from "@/auth";
 import { isAuthEnabled } from "@/lib/auth-enabled";
+import { keycloakLogoutUrl } from "@/lib/keycloak-session";
 
 export const dynamic = "force-dynamic";
 
@@ -19,11 +20,13 @@ export default async function AccountPage() {
       <form action={async () => {
         "use server";
         if (!isAuthEnabled()) notFound();
-        await signOut({ redirectTo: "/" });
+        const logoutUrl = keycloakLogoutUrl();
+        await signOut({ redirect: false, redirectTo: "/" });
+        redirect(logoutUrl);
       }}>
-        <button type="submit">Cerrar sesión en EduHamuy</button>
+        <button type="submit">Cerrar sesión</button>
       </form>
-      <p>Tu sesión de Keycloak puede seguir abierta en este navegador.</p>
+      <p>Confirma el cierre en Keycloak para cerrar también tu sesión de acceso.</p>
       <Link href="/">Volver al inicio</Link>
     </main>
   );
