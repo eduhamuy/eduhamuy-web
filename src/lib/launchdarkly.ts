@@ -1,4 +1,4 @@
-import { init, type LDClient } from "@launchdarkly/node-server-sdk";
+import { init, type LDClient } from '@launchdarkly/node-server-sdk';
 
 let ldClient: LDClient | undefined;
 
@@ -19,10 +19,10 @@ export function getLaunchDarklyClient(): LDClient | undefined {
 export async function evaluateBooleanFlag(
   flagKey: string,
   context: {
-    kind: "user";
+    kind: 'user';
     key: string;
   },
-  fallback: boolean,
+  fallback: boolean
 ): Promise<boolean> {
   const client = getLaunchDarklyClient();
 
@@ -35,10 +35,7 @@ export async function evaluateBooleanFlag(
 
     return await client.boolVariation(flagKey, context, fallback);
   } catch (error) {
-    console.error(
-      `LaunchDarkly evaluation failed for flag "${flagKey}":`,
-      error,
-    );
+    console.error(`LaunchDarkly evaluation failed for flag "${flagKey}":`, error);
 
     return fallback;
   }
