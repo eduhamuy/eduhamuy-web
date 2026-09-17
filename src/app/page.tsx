@@ -35,6 +35,12 @@ export default async function HomePage() {
         </p>
       )}
 
+      {process.env.AI_API_URL && (
+        <p>
+          <Link href="/buscar">Buscar documentos</Link>
+        </p>
+      )}
+
       {showNewHome && (
         <section>
           <h2>Nueva experiencia de EduHamuy</h2>
