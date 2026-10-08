@@ -22,7 +22,11 @@ export default function SearchPage() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const value = query.trim();
-    if (!value) return;
+    if (!value) {
+      setResults([]);
+      setError('Ingresa un término de búsqueda para continuar.');
+      return;
+    }
 
     setLoading(true);
     setError('');
@@ -49,7 +53,7 @@ export default function SearchPage() {
   return (
     <main>
       <h1>Buscar documentos</h1>
-      <form onSubmit={handleSubmit}>
+      <form noValidate onSubmit={handleSubmit}>
         <label htmlFor="search-query">Término de búsqueda</label>
         <input
           id="search-query"
@@ -58,13 +62,19 @@ export default function SearchPage() {
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Ej. educación superior"
           required
+          aria-describedby={error ? 'search-error' : undefined}
+          aria-invalid={!query.trim() && Boolean(error)}
         />
         <button type="submit" disabled={loading}>
           {loading ? 'Buscando...' : 'Buscar'}
         </button>
       </form>
 
-      {error && <p role="alert">{error}</p>}
+      {error && (
+        <p id="search-error" role="alert">
+          {error}
+        </p>
+      )}
       {!loading && !error && query.trim() && results.length === 0 && <p>No se encontraron resultados.</p>}
 
       {results.length > 0 && (
