@@ -17,3 +17,94 @@ body {
 body {
   min-height: 100vh;
 }
+
+button,
+input {
+  font: inherit;
+}
+
+.search-page {
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: 2rem;
+}
+
+.search-header {
+  max-width: 860px;
+}
+
+.search-controls,
+.catalog-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.search-controls input {
+  flex: 1 1 20rem;
+  min-height: 2.5rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.search-controls button,
+.catalog-pagination button {
+  min-height: 2.5rem;
+  padding: 0.5rem 0.9rem;
+}
+
+.document-workspace {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: minmax(0, 1fr) minmax(22rem, 0.9fr);
+  margin-top: 2rem;
+}
+
+.document-items {
+  display: grid;
+  gap: 0.75rem;
+  padding-left: 1.5rem;
+}
+
+.document-title {
+  background: none;
+  border: 0;
+  color: #075ca8;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  text-decoration: underline;
+}
+
+.document-title[aria-pressed='true'] {
+  color: #111;
+  font-weight: 700;
+}
+
+.document-preview {
+  border: 1px solid #ccc;
+  min-height: 32rem;
+  padding: 1rem;
+}
+
+.document-preview h2,
+.document-preview h3 {
+  margin-top: 0;
+}
+
+.document-preview iframe {
+  border: 0;
+  height: 40rem;
+  max-width: 100%;
+  width: 100%;
+}
+
+@media (max-width: 800px) {
+  .search-page {
+    padding: 1rem;
+  }
+
+  .document-workspace {
+    grid-template-columns: 1fr;
+  }
+}
