@@ -16,11 +16,14 @@ export function keycloakConfig(env: Environment = process.env) {
   return { issuer: issuer.href.replace(/\/$/, ''), clientId, home: new URL('/', app).href };
 }
 
-export function keycloakLogoutUrl(env: Environment = process.env) {
+export function keycloakLogoutUrl(returnPath = '/', env: Environment = process.env) {
   const { issuer, clientId, home } = keycloakConfig(env);
+  const applicationUrl = new URL(home);
+  const destination = new URL(returnPath, applicationUrl);
+  if (destination.origin !== applicationUrl.origin) throw new Error('Logout return URL must stay in this application');
   const url = new URL(`${issuer}/protocol/openid-connect/logout`);
   url.searchParams.set('client_id', clientId);
-  url.searchParams.set('post_logout_redirect_uri', home);
+  url.searchParams.set('post_logout_redirect_uri', destination.href);
   // Without an ID token hint Keycloak asks the user to confirm logout.
   return url.href;
 }

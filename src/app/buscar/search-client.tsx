@@ -154,6 +154,7 @@ export default function SearchClient({
                 </form>
               </>
             )}
+            {!account && <Link href="/login?callbackUrl=%2Fbuscar">Iniciar sesión</Link>}
           </nav>
         </div>
         <p>
