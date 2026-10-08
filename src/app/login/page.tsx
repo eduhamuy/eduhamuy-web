@@ -5,11 +5,20 @@ import { isAuthEnabled } from '@/lib/auth-enabled';
 
 export const dynamic = 'force-dynamic';
 
-export default async function LoginPage({ searchParams }: { searchParams: Promise<{ error?: string }> }) {
+function localReturnPath(value: string | undefined) {
+  return value?.startsWith('/') && !value.startsWith('//') ? value : '/mi-cuenta';
+}
+
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string; callbackUrl?: string }>;
+}) {
   if (!isAuthEnabled()) notFound();
+  const { error, callbackUrl } = await searchParams;
+  const returnPath = localReturnPath(callbackUrl);
   const session = await auth();
-  if (session?.user) redirect('/mi-cuenta');
-  const { error } = await searchParams;
+  if (session?.user) redirect(returnPath);
 
   return (
     <main>
@@ -19,7 +28,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         action={async () => {
           'use server';
           if (!isAuthEnabled()) notFound();
-          await signIn('keycloak', { redirectTo: '/mi-cuenta' });
+          await signIn('keycloak', { redirectTo: returnPath });
         }}
       >
         <button type="submit">Continuar con Keycloak</button>

@@ -14,7 +14,7 @@ export default async function SearchPage() {
   async function signOutFromSearch() {
     'use server';
     if (!isAuthEnabled()) return;
-    const logoutUrl = keycloakLogoutUrl();
+    const logoutUrl = keycloakLogoutUrl('/buscar');
     await signOut({ redirect: false, redirectTo: '/' });
     redirect(logoutUrl);
   }
