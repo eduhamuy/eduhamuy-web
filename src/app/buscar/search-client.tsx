@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { FormEvent, useCallback, useEffect, useState } from 'react';
 
 const PAGE_SIZE = 20;
@@ -28,7 +29,18 @@ function isSearchResult(document: Document): document is SearchResult {
   return 'similarity_score' in document && typeof (document as SearchResult).similarity_score === 'number';
 }
 
-export default function SearchClient({ isAuthenticated }: { isAuthenticated: boolean }) {
+type Account = {
+  name: string;
+  email: string | null;
+};
+
+export default function SearchClient({
+  account,
+  signOutAction,
+}: {
+  account: Account | null;
+  signOutAction: () => Promise<void>;
+}) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   const [catalog, setCatalog] = useState<Document[]>([]);
@@ -130,7 +142,20 @@ export default function SearchClient({ isAuthenticated }: { isAuthenticated: boo
   return (
     <main className="search-page">
       <section className="search-header" aria-labelledby="search-title">
-        <h1 id="search-title">Buscar documentos</h1>
+        <div className="search-title-row">
+          <h1 id="search-title">Buscar documentos</h1>
+          <nav className="search-account-actions" aria-label="Navegación de cuenta">
+            <Link href="/">Inicio</Link>
+            {account && (
+              <>
+                <span title={account.email ?? undefined}>Hola, {account.name}</span>
+                <form action={signOutAction}>
+                  <button type="submit">Cerrar sesión</button>
+                </form>
+              </>
+            )}
+          </nav>
+        </div>
         <p>
           Explora los documentos académicos disponibles en el corpus actual. Al realizar una búsqueda, los resultados se
           ordenan por relevancia estimada. Revisa el PDF original antes de usar su contenido.
@@ -163,7 +188,7 @@ export default function SearchClient({ isAuthenticated }: { isAuthenticated: boo
             {error}
           </p>
         )}
-        {isAuthenticated && (
+        {account && (
           <section className="management-demo" aria-labelledby="management-demo-title">
             <h2 id="management-demo-title">Gestión de documentos</h2>
             <p>Demostración de funciones administrativas. Estas acciones aún no modifican el corpus ni el índice.</p>
