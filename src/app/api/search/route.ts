@@ -1,12 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { aiFetch, aiUrl, jsonError } from '@/lib/ai-api';
 
 export const dynamic = 'force-dynamic';
-
-const SEARCH_TIMEOUT_MS = 5000;
-
-function jsonError(detail: string, status: number) {
-  return NextResponse.json({ detail }, { status });
-}
 
 export async function GET(request: NextRequest) {
   const query = request.nextUrl.searchParams.get('q')?.trim() ?? '';
@@ -18,13 +13,8 @@ export async function GET(request: NextRequest) {
     return jsonError('Limit must be an integer between 1 and 50', 400);
   }
 
-  const apiUrl = process.env.AI_API_URL?.trim();
-  if (!apiUrl) return jsonError('AI search is not configured', 503);
-
-  let target: URL;
-  try {
-    target = new URL('/search', apiUrl.endsWith('/') ? apiUrl : `${apiUrl}/`);
-  } catch {
+  const target = aiUrl('/search');
+  if (!target) {
     return jsonError('AI search configuration is invalid', 503);
   }
 
@@ -32,11 +22,7 @@ export async function GET(request: NextRequest) {
   target.searchParams.set('limit', String(limit));
 
   try {
-    const response = await fetch(target, {
-      cache: 'no-store',
-      redirect: 'error',
-      signal: AbortSignal.timeout(SEARCH_TIMEOUT_MS),
-    });
+    const response = await aiFetch(target);
     const body = await response.json().catch(() => ({ detail: 'Invalid AI response' }));
 
     return NextResponse.json(body, { status: response.status });
